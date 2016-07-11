@@ -9,8 +9,7 @@
  * @todo 核心类库
  *
  */
-require_once(dirname(__FILE__)."/Service.class.php");
-require_once(dirname(__FILE__)."/ErrorInfo.class.php");
+require_once(dirname(__FILE__)."/OpenApi.php");
 class Sdk{
 
     private     $clientId;     //客户端ID
@@ -27,6 +26,8 @@ class Sdk{
 
     private     $Service;      //服务层
 
+    private     $apiList;      //API LIST
+
     /**
      * Sdk constructor.
      * @param String  $clientId
@@ -36,11 +37,12 @@ class Sdk{
      * @param null $refreshToken
      * @todo 12XUE PHP SDK Construct
      */
-    public function __construct($clientId, $clientSecret, $redirectUrl ,$accessToken = null, $refreshToken = null){
+    public function __construct($clientId, $clientSecret, $redirectUrl ,$apiList,$accessToken = null, $refreshToken = null){
 
         $this->clientId     = $clientId;
         $this->clientSecret = $clientSecret;
         $this->redirectUrl  = $redirectUrl;
+        $this->apiList      = $apiList;
         $this->Service      = new Service();
         $this->errorMsg     = new ErrorInfo(true);
 
@@ -51,17 +53,17 @@ class Sdk{
      * @return string oAuthXueLoginURI
      * @todo 获取登录地址
      */
-    function oAuthXueLoginURI()         { return "http://open.a.com/oauth2/grant"; }
+    function oAuthXueLoginURI()         { return "http://open.12xuedev.com/oauth2/grant"; }
     /**
      * @return string oAuthXueAccessTokenURI
      * @todo 获取access TOKEN 的地址
      */
-    function oAuthXueAccessTokenURI()   { return "http://open.a.com/oauth2/token"; }
+    function oAuthXueAccessTokenURI()   { return "http://open.12xuedev.com/oauth2/token"; }
     /**
      * @return string oAuthXueOpenIdURI
      * @todo 获取open ID的地址
      */
-    function oAuthXueOpenIdURI()        { return "http://open.a.com/oauth2/me?access_token="; }
+    function oAuthXueOpenIdURI()        { return "http://open.12xuedev.com/oauth2/me?access_token="; }
 
     /**
      * @param String $oAuthXueLoginURI 此地址为12XUE登录处理地址 一般不需要自行修改
@@ -116,7 +118,9 @@ class Sdk{
                 $this->errorMsg->errorMsg(10061);
 
         }
+
         $accessToken = $this->Service->post($this->oAuthXueAccessTokenURI(),$parameterArray);
+
         return $accessToken["access_token"];
     }
 
@@ -135,8 +139,32 @@ class Sdk{
         $openId       = $returns->openid;
         return $openId;
     }
-    public function api(){
+    public function isLogin(){
+        if($_SESSION["OAUTHOPENAPI"]["token"]===NULL && $_SESSION["OAUTHOPENAPI"]["open"]===NULL){
+            return false;
+        }
+        return true;
+    }
+    public function api($apiName = "" , $params = array() ){
+        $apiList  = $this->apiList;
 
+        if($_SESSION["OAUTHOPENAPI"]["token"]===NULL && $_SESSION["OAUTHOPENAPI"]["open"]===NULL){
+            $this->errorMsg->errorMsg(10063); return;
+        }
+        $header = array(
+
+            "Token	: {$_SESSION['OAUTHOPENAPI']['token']}",
+
+            "OpenID	: {$_SESSION['OAUTHOPENAPI']['open']}",
+
+        );
+        if($apiName == "" || !is_array($apiList[$apiName])){
+            $this->errorMsg->errorMsg(10064);return;
+        }
+        $method = strtolower ($apiList[$apiName]["method"]);
+
+        $info = $this->Service->$method($apiList[$apiName]["api"], $params, $header);
+        exit(var_dump($info));
     }
 
     public function __destruct(){/* TODO: Implement __destruct() method.*/}

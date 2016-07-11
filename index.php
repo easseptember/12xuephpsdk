@@ -8,8 +8,7 @@
  * @copyright © 2016, 12XUE. All rights reserved.
  * @todo 12XUE PHP SDK 主入口文件
  */
-require_once(dirname(__FILE__)."/core/ErrorInfo.class.php");
-require_once(dirname(__FILE__)."/demo/Config.php");
+require_once(dirname(__FILE__)."/core/OpenApi.php");
 $errorMsg = new ErrorInfo(true);
 //设置错误级别
 // error_reporting(E_ERROR ^ E_NOTICE ^ E_WARNING);

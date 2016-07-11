@@ -8,8 +8,7 @@
 * @copyright © 2016, 12XUE. All rights reserved.
 * @todo 演示DEMO入口文件*
 */
-require_once(dirname(dirname(__FILE__))."/core/ErrorInfo.class.php");
-require_once(dirname(dirname(__FILE__))."/demo/Config.php");
+require_once(dirname(dirname(__FILE__))."/core/OpenApi.php");
 $errorMsg = new ErrorInfo(true);
 ?>
 

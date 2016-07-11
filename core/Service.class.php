@@ -46,11 +46,12 @@ class Service{
     /**
      * @param $url
      * @param array $parameters
+     * @param array $header
      * @return mixed
      * @TODO HTTP GET
      */
-    function get($url, $parameters = array()) {
-        $response = $this->oAuthRequest($url, 'GET', $parameters);
+    function get($url, $parameters = array(), $header) {
+        $response = $this->oAuthRequest($url, 'GET', $parameters , $header);
         if ($this->dataType === 'json' && $this->decodeJson) {
             return json_decode($response, true);
         }
@@ -60,12 +61,13 @@ class Service{
     /**
      * @param $url
      * @param array $parameters
+     * @param array $header
      * @param bool $multi
      * @return mixed
      * @TODO HTTP POST
      */
-    function post($url, $parameters = array(), $multi = false) {
-        $response = $this->oAuthRequest($url, 'POST', $parameters, $multi );
+    function post($url, $parameters = array(), $header, $multi = false) {
+        $response = $this->oAuthRequest($url, 'POST', $parameters, $header, $multi );
         if ($this->dataType === 'json' && $this->decodeJson) {
             return json_decode($response, true);
         }
@@ -75,11 +77,12 @@ class Service{
     /**
      * @param $url
      * @param array $parameters
+     * @param array $header
      * @return mixed
      * @TODO HTTP DELETE
      */
-    function delete($url, $parameters = array()) {
-        $response = $this->oAuthRequest($url, 'DELETE', $parameters);
+    function delete($url, $parameters = array() , $header) {
+        $response = $this->oAuthRequest($url, 'DELETE', $parameters , $header);
         if ($this->dataType === 'json' && $this->decodeJson) {
             return json_decode($response, true);
         }
@@ -91,6 +94,7 @@ class Service{
      * @param $method
      * @param $parameters
      * @param bool $multi
+     * @param array $header
      * @return mixed
      * @todo OAUTH 请求器
      * @date 20160701 15:10
@@ -102,7 +106,7 @@ class Service{
      * 3、multipart/form-data的请求头必须包含一个特殊的头信息：Content-Type，且其值也必须规定为multipart/form-data
      * 同时还需要规定一个内容分割符用于分割请求体中的多个post的内容，如文件内容和文本内容自然需要分割开来，不然接收方就无法正常解析和还原这个文件了
      */
-    function oAuthRequest($url, $method, $parameters, $multi = false) {
+    function oAuthRequest($url, $method, $parameters, $header , $multi = false) {
 
         if (strrpos($url, 'http://') !== 0 || strrpos($url, 'https://') !== 0) {
             $url = $this->urlBuilder($url, array("format"=>$this->dataType));
@@ -115,7 +119,7 @@ class Service{
                 $url = $this->urlBuilder($url, $parameters);
                 return $this->http($url, 'GET');
             default:
-                $headers = array();
+
                 if (!$multi && (is_array($parameters) || is_object($parameters)) ) {
 
                     $body = http_build_query($parameters);
@@ -124,7 +128,7 @@ class Service{
                     $headers[] = "Content-Type: multipart/form-data; boundary=" . $this->boundary;
                 }
 
-                return $this->http($url, $method, $body, $headers);
+                return $this->http($url, $method, $body, $header);
         }
     }
 
@@ -194,7 +198,6 @@ class Service{
 
 
         curl_close ($ci);
-
         return $response;
     }
 

@@ -8,6 +8,6 @@
  * @copyright © 2016, 12XUE. All rights reserved.
  * @todo 演示Userinfo 回调节面*
  */
-require_once(dirname(dirname(__FILE__))."/Config.php");
-$accessToken =$SDK->getAccessToken(array("code"=>$_GET['code']));
-var_dump($SDK->getOpenId($accessToken));
+require_once(dirname(dirname(dirname(__FILE__)))."/core/OpenApi.php");
+
+$SDK->api("get_user_me");
