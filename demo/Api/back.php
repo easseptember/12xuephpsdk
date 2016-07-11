@@ -9,5 +9,17 @@
  * @todo 演示Userinfo 回调节面*
  */
 require_once(dirname(dirname(dirname(__FILE__)))."/core/OpenApi.php");
+/**
+ * @description  本示例可用isLogin（）方法 检测是否已经登录
+ * 在已经登录的情况下   可以调用 api的任何方法
+ * $SDK -> api($apiName , $params)  调用规则  传入方法名和参数即可调用任何API
+ * API文档地址 ：
+ */
+if($SDK->isLogin()){
+$info = $SDK->api("get_user_me");
 
-$SDK->api("get_user_me");
+echo "<img src={$info['face']}>你好 ,".$info['realname']."<a href={$SDK->logOut()}>退出</a>";
+}else{
+    header( "Location:../Login/index.php");
+}
+

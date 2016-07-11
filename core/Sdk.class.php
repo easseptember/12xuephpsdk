@@ -139,11 +139,17 @@ class Sdk{
         $openId       = $returns->openid;
         return $openId;
     }
+    public function logOut(){
+        $_SESSION['OAUTHOPENAPI']['token']  =   NULL;
+        $_SESSION['OAUTHOPENAPI']['open']   =   NULL;
+        return  "../Login/index.php";
+    }
     public function isLogin(){
         if($_SESSION["OAUTHOPENAPI"]["token"]===NULL && $_SESSION["OAUTHOPENAPI"]["open"]===NULL){
             return false;
+        }else{
+            return true;
         }
-        return true;
     }
     public function api($apiName = "" , $params = array() ){
         $apiList  = $this->apiList;
@@ -164,7 +170,8 @@ class Sdk{
         $method = strtolower ($apiList[$apiName]["method"]);
 
         $info = $this->Service->$method($apiList[$apiName]["api"], $params, $header);
-        exit(var_dump($info));
+
+        return $info;
     }
 
     public function __destruct(){/* TODO: Implement __destruct() method.*/}

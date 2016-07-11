@@ -10,4 +10,5 @@
  */
 require_once(dirname(dirname(dirname(__FILE__)))."/core/OpenApi.php");
 $loginUrl = $SDK->login();
+
 echo "<a href={$loginUrl}>点击进行12XUE登录</a>";

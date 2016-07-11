@@ -51,7 +51,9 @@ class Service{
      * @TODO HTTP GET
      */
     function get($url, $parameters = array(), $header) {
+
         $response = $this->oAuthRequest($url, 'GET', $parameters , $header);
+
         if ($this->dataType === 'json' && $this->decodeJson) {
             return json_decode($response, true);
         }
@@ -66,7 +68,7 @@ class Service{
      * @return mixed
      * @TODO HTTP POST
      */
-    function post($url, $parameters = array(), $header, $multi = false) {
+    function post($url, $parameters = array(), $header = array(), $multi = false) {
         $response = $this->oAuthRequest($url, 'POST', $parameters, $header, $multi );
         if ($this->dataType === 'json' && $this->decodeJson) {
             return json_decode($response, true);
@@ -81,7 +83,7 @@ class Service{
      * @return mixed
      * @TODO HTTP DELETE
      */
-    function delete($url, $parameters = array() , $header) {
+    function delete($url, $parameters = array() , $header = array()) {
         $response = $this->oAuthRequest($url, 'DELETE', $parameters , $header);
         if ($this->dataType === 'json' && $this->decodeJson) {
             return json_decode($response, true);
@@ -106,7 +108,7 @@ class Service{
      * 3、multipart/form-data的请求头必须包含一个特殊的头信息：Content-Type，且其值也必须规定为multipart/form-data
      * 同时还需要规定一个内容分割符用于分割请求体中的多个post的内容，如文件内容和文本内容自然需要分割开来，不然接收方就无法正常解析和还原这个文件了
      */
-    function oAuthRequest($url, $method, $parameters, $header , $multi = false) {
+    function oAuthRequest($url, $method, $parameters, $header= array() , $multi = false) {
 
         if (strrpos($url, 'http://') !== 0 || strrpos($url, 'https://') !== 0) {
             $url = $this->urlBuilder($url, array("format"=>$this->dataType));
@@ -117,7 +119,8 @@ class Service{
         switch ($method) {
             case 'GET':
                 $url = $this->urlBuilder($url, $parameters);
-                return $this->http($url, 'GET');
+
+                return $this->http($url, 'GET',$parameters, $header);
             default:
 
                 if (!$multi && (is_array($parameters) || is_object($parameters)) ) {
@@ -142,6 +145,7 @@ class Service{
      */
 
     function http($url, $method, $postfields = NULL, $headers = array()) {
+
         $http_info = array();
         $ci = curl_init();
         /* Curl settings */

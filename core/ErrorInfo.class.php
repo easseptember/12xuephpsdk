@@ -41,6 +41,9 @@ class ErrorInfo{
             "10062"   =>  "地址格式错误，以Http或https开头" ,
             "10063"   =>  "请重新获取access token 和 openid的值" ,
             "10064"   =>  "无效的接口名称或接口名称为空" ,
+            "10065"   =>  "code 获取异常" ,
+            "10066"   =>  "access token 获取异常" ,
+            "10067"   =>  "openid 获取异常" ,
         );
         return $errorConfig;
      }
