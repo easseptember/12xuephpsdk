@@ -1,6 +1,6 @@
 <?php
 /**
- * @date 20160629
+ * @since 20160629
  * @package INDEX
  * @link http://open.12xue.com/
  * @author Eass September<15522280@qq.com>
