@@ -75,7 +75,22 @@ class Service{
         }
         return $response;
     }
+    /**
+     * @param $url
+     * @param array $parameters
+     * @param array $header
+     * @param bool $multi
+     * @return mixed
+     * @TODO HTTP POST
+     */
+    function put($url, $parameters = array(), $header = array(), $multi = false) {
 
+        $response = $this->oAuthRequest($url, 'PUT', $parameters, $header, $multi );
+        if ($this->dataType === 'json' && $this->decodeJson) {
+            return json_decode($response, true);
+        }
+        return $response;
+    }
     /**
      * @param $url
      * @param array $parameters
@@ -111,7 +126,8 @@ class Service{
     function oAuthRequest($url, $method, $parameters, $header= array() , $multi = false) {
 
         if (strrpos($url, 'http://') !== 0 || strrpos($url, 'https://') !== 0) {
-            $url = $this->urlBuilder($url, array("format"=>$this->dataType));
+            //$url = $this->urlBuilder($url, array("format"=>$this->dataType));
+            $url = $url;
         }else{
             $this->errorMsg->errorMsg(10062);
         }
@@ -181,10 +197,18 @@ class Service{
 
                 }
                 break;
+            case 'PUT':
+                curl_setopt($ci, CURLOPT_CUSTOMREQUEST, 'PUT');
+                if (!empty($postfields)) {
+                    curl_setopt($ci, CURLOPT_POSTFIELDS, $postfields);
+
+                }
+                break;
             case 'DELETE':
                 curl_setopt($ci, CURLOPT_CUSTOMREQUEST, 'DELETE');
                 if (!empty($postfields)) {
                     $url = "{$url}?{$postfields}";
+                    curl_setopt($ci, CURLOPT_POSTFIELDS, $postfields);
                 }
         }
 

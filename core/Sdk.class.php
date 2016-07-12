@@ -139,11 +139,11 @@ class Sdk{
         $openId       = $returns->openid;
         return $openId;
     }
-    public function logOut(){
-        $_SESSION['OAUTHOPENAPI']['token']  =   NULL;
-        $_SESSION['OAUTHOPENAPI']['open']   =   NULL;
-        return  "../Login/index.php";
-    }
+
+    /**
+     * @return bool
+     * @todo 检测是否已经登录 本SDK准则
+     */
     public function isLogin(){
         if($_SESSION["OAUTHOPENAPI"]["token"]===NULL && $_SESSION["OAUTHOPENAPI"]["open"]===NULL){
             return false;
@@ -151,6 +151,24 @@ class Sdk{
             return true;
         }
     }
+
+
+    /**
+     * @return string
+     * @todo  登出方法
+     */
+    public function logOut(){
+        $_SESSION['OAUTHOPENAPI']['token']  =   NULL;
+        $_SESSION['OAUTHOPENAPI']['open']   =   NULL;
+        return  "../Login/index.php";
+    }
+
+    /**
+     * @param string $apiName  API名称
+     * @param array $params    参数
+     * @return array $info     返回获取信息
+     * @todo  构建API 方法
+     */
     public function api($apiName = "" , $params = array() ){
         $apiList  = $this->apiList;
 
@@ -159,9 +177,11 @@ class Sdk{
         }
         $header = array(
 
-            "Token	: {$_SESSION['OAUTHOPENAPI']['token']}",
+            "Token	      : {$_SESSION['OAUTHOPENAPI']['token']}",
 
-            "OpenID	: {$_SESSION['OAUTHOPENAPI']['open']}",
+            "OpenID	      : {$_SESSION['OAUTHOPENAPI']['open']}",
+
+            "Content-Type : application/x-www-form-urlencoded",
 
         );
         if($apiName == "" || !is_array($apiList[$apiName])){
@@ -169,7 +189,7 @@ class Sdk{
         }
         $method = strtolower ($apiList[$apiName]["method"]);
 
-        $info = $this->Service->$method($apiList[$apiName]["api"], $params, $header);
+        $info   = $this->Service->$method($apiList[$apiName]["api"], $params, $header);
 
         return $info;
     }
