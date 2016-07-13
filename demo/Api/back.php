@@ -6,7 +6,7 @@
  * @author Eass September<15522280@qq.com>
  * @version 1.0
  * @copyright © 2016, 12XUE. All rights reserved.
- * @todo 演示Userinfo 回调节面*
+ * @todo 演示 API 接口*
  */
 require_once(dirname(dirname(dirname(__FILE__)))."/core/OpenApi.php");
 /**
@@ -21,7 +21,7 @@ if($SDK->isLogin()){
     $info = $SDK->api("get_user_me");
 
     echo "<img src={$info['face']}>你好 ,".$info['realname'];
-    
+
     
 }else{
     header( "Location:../Login/index.php");
