@@ -8,7 +8,7 @@
 * @copyright © 2016, 12XUE. All rights reserved.
 * @todo 用户自定义配置文件*
 */
-header('Content-Type: text/html; charset=UTF-8');
+
 //XUE_CLIENT_ID为申请接入12xue登录时的获取的APP_ID;
 define( "XUE_CLIENT_ID" , "web_stu" );
 //XUE_CLIENT_SECRET为申请接入12xue登录时的获取的APP_SECRET;

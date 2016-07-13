@@ -53,17 +53,17 @@ class Sdk{
      * @return string oAuthXueLoginURI
      * @todo 获取登录地址
      */
-    function oAuthXueLoginURI()         { return "http://open.12xuedev.com/oauth2/grant"; }
+    function oAuthXueLoginURI()         { return "http://open.".DOMINURI."/oauth2/grant"; }
     /**
      * @return string oAuthXueAccessTokenURI
      * @todo 获取access TOKEN 的地址
      */
-    function oAuthXueAccessTokenURI()   { return "http://open.12xuedev.com/oauth2/token"; }
+    function oAuthXueAccessTokenURI()   { return "http://open.".DOMINURI."/oauth2/token"; }
     /**
      * @return string oAuthXueOpenIdURI
      * @todo 获取open ID的地址
      */
-    function oAuthXueOpenIdURI()        { return "http://open.12xuedev.com/oauth2/me?access_token="; }
+    function oAuthXueOpenIdURI()        { return "http://open.".DOMINURI."/oauth2/me?access_token="; }
 
     /**
      * @param String $oAuthXueLoginURI 此地址为12XUE登录处理地址 一般不需要自行修改

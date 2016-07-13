@@ -21,11 +21,8 @@ if($SDK->isLogin()){
     $info = $SDK->api("get_user_me");
 
     echo "<img src={$info['face']}>你好 ,".$info['realname'];
-    $params2 =  array('uid'=>54551212,'identitytype'=>'4');
-    $params1 = array('account'=>'x12986781','password'=>'111111','client_id'=>'web_stu','client_secret'=>'28d39c6fd4a50094f72a693eaf53bfc5');
-    $params = array('uid'=>1034145308280422923,'sex'=>'0');
-    $api = $SDK->api("put_user_info",$params);
-    var_dump($api);
+    
+    
 }else{
     header( "Location:../Login/index.php");
 }
