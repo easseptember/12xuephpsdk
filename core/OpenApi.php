@@ -22,7 +22,7 @@ $errorMsg = new ErrorInfo(true);
 //初始化SDK类   此配置项为config配置  可根据情况自定义获取
 $SDK = new Sdk(XUE_CLIENT_ID,  XUE_CLIENT_SECRET,  XUE_REDIRECT_URL, $APILIST);
 $code = !empty($_GET['code'])?$_GET['code']:"";
-if($_SESSION["OAUTHOPENAPI"]["token"]===NULL && $_SESSION["OAUTHOPENAPI"]["open"]===NULL && !empty($code)){
+if($code!=NULL && $code != $_SESSION["OAUTHOPENAPI"]["code"]){
 
     if(empty($_GET['code'])){
         $errorMsg->errorMsg(10065);return;

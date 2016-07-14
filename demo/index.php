@@ -36,7 +36,7 @@ require_once(dirname(dirname(__FILE__))."/core/OpenApi.php");
     <br>
 
     <p><font color="red">♠ </font>（1）.用户登录演示【<a  href="javascript:demoIndexUrl('./Login/index.php')"><font color="red">入口</font></a>】</p>
-    <p><font color="red">♠ </font>（2）.获取用户信息【<a  href="javascript:demoIndexUrl('./UserInfo/index.php')"><font color="red">入口</font></a>】</p>
+    <p><font color="red">♠ </font>（2）.获取用户信息【<a  href="javascript:demoIndexUrl('./Api/back.php')"><font color="red">入口</font></a>】</p>
     <div id="showMessage"></div>
 </div>
 
